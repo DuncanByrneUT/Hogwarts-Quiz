@@ -1,23 +1,27 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Quiz from './components/Quiz';
+import SortingHat from './components/SortingHat';
+import Result from './components/Result';
 import './App.css';
 
 function App() {
+  const [stage, setStage] = useState('quiz');
+  const [house, setHouse] = useState('');
+
+  const handleQuizComplete = (sortedHouse) => {
+    setHouse(sortedHouse);
+    setStage('sorting');
+  };
+
+  const handleSortingComplete = () => {
+    setStage('result');
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {stage === 'quiz' && <Quiz onComplete={handleQuizComplete} />}
+      {stage === 'sorting' && <SortingHat house={house} onComplete={handleSortingComplete} />}
+      {stage === 'result' && <Result house={house} />}
     </div>
   );
 }
